@@ -15,15 +15,18 @@ This is a python class for interfacing with Yahoo Finance API for basic stock da
   - strike = desired strike price of the option
 - getCallPrice(stock, expiration, strike) - same interface as getPutPrice() but for CALL options
 
-*See additional API features here: https://stackoverflow.com/questions/44030983/yahoo-finance-url-not-working
+*See additional endpoints for yahoo finance API here (post by Ryder Brooks): https://stackoverflow.com/questions/44030983/yahoo-finance-url-not-working
 
 ### Example Usage
     import yahooFinanceScraper as yf
 
     scraper = yf.YahooFinanceScraper()
 
-    currPrice = scraper.getCurrPrice('SPY')  # get current price of SPY
-    call = scraper.getCallPrice('SPY', 1607904000, 375)
+    # get current price of SPY
+    currPrice = scraper.getCurrPrice('SPY')  
+
+    # get premium for a SPY call option at strike price of 375 expiring on 12/14/2020
+    call = scraper.getCallPrice('SPY', 1607904000, 375)   
     
       
 ### Libraries Used:

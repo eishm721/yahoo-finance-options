@@ -1,39 +1,34 @@
-# ETFTrader
+# YahooFinanceScraper
 
-This is a python bot to trade SPY/DIA/QQQ/IWM ETF contracts using straddle-based options strategy. I have developed a knapsack-based search algorithm to optimize portfolio distribution & automate trades w/ HTTP requests. Additionally, I have built a custom web-scraper to fetch live stock prices/indicators by parsing HTML code and interfacing with Yahoo Finance public API. So far, we have seen an annualized 14% return, nearly double the performance of the S&P 500 on historical data. Minimum investment must be ~$20,000 for trading ETF options.
+This is a python class for interfacing with Yahoo Finance API for basic stock data. Add this file to existing projects and import the scraper to use built in functions.
 
-Framework is developed in Python. Initial steps were designing a custom Yahoo Finance web-scraper due to limitations in free, real-time stock data (lxml, HTTP). Next, I developed a knapsack-based search algorithm for determining optimal porfolio allocation based on option contract details (strike price, premium, expiration) and various indicators (implied volatility, delta, theta). I built a simple UI for visualizing this algorithm using Anvil python client (both server/client side). Lastly, we interfaced the Alpaca API for placing paper trades.
+### Functions:
+- getCurrPrice(stock): returns current price of a stock ticker 
+- getExpirationDates(stock): returns avaliable expiration dates (in Unix time) for option contracts of a stock ticker
+- getContracts(stock, expiration, optionType): returns all avaliable option contracts of a given stock. Raises value error if none found. 
+  - stock = ticker symbol
+  - expiration = expiration date in Unix time (use 12:00am time of date)
+  - optionType = 'calls' or 'puts'
+- getPutPrice(stock, expiration, strike) - Returns premium of PUT option contrac. Raises value error if no contract found. 
+  - stock = ticker symbol 
+  - expiration = expiration date in Unix time (use 12:00am time of date)
+  - strike = desired strike price of the option
+- getCallPrice(stock, expiration, strike) - same interface as getPutPrice() but for CALL options
 
+*See additional API features here: https://stackoverflow.com/questions/44030983/yahoo-finance-url-not-working
 
-### Features:
-- Custom web-scraper to extract real-time stock data
-  - current stock price
-  - option premiums/expirations
-- Knapsack algorithm for determining optimal portfolio allocation
-  - considers contract strike price, premium, expiration, IV, delta, theta decay
-- Simple UI (built w/ python client for Anvil) for visualizing allocation algorithm: https://etf-auto.anvil.app
-- Interface for placing paper trades using Alpaca API
+### Example Usage
+    import yahooFinanceScraper as yf
 
-### Usage
+    scraper = yf.YahooFinanceScraper()
 
-    python3 etfTrader.py [tickers,] cash
-    
-    - tickers: space separated list of all stock tickers
-    - avaliable cash in account
-   
-    ex: python3 etfTrade.py SPY QQQ DIA IWM 94500
+    currPrice = scraper.getCurrPrice('SPY')  # get current price of SPY
+    call = scraper.getCallPrice('SPY', 1607904000, 375)
     
       
 ### Libraries Used:
-- lxml - HTML web-scraper for real-time stock prices
 - requests - HTTP requests on APIs
 - Yahoo Finance API - scraping options data
-- Alpaca API - placing paper trades
-- Anvil - building simple UI for portfolio
 - time/datetime - custom timer for determing option contract expiration dates
-- NumPy/SciPy - mathematical analysis with large data sets, building classification models
 
-    
-### Most Recent Changes (12/08/20):
-- Improved portfolio allocation algorithm runtime from O(2^n) to O(n^2) using dynamic program
-
+  

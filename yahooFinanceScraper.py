@@ -2,11 +2,9 @@
 FILENAME: yahooFinanceScraper
 
 Class for scraping stock and options data from Yahoo Finance API
-Uses lxml to parse HTML for stock prices and scrapes YF API for options data
 """
-from lxml import html
-import requests, datetime
 
+import requests, datetime
 
 class YahooFinanceScraper:
     def __init__(self):
